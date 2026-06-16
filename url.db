@@ -1,0 +1,3 @@
+{"_id":"bUZULkfrX4x6puG9"}
+{"$$indexCreated":{"fieldName":"expiresAt","unique":false,"sparse":false}}
+{"$$indexCreated":{"fieldName":"expiresAt","expireAfterSeconds":0}}
