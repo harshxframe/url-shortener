@@ -11,7 +11,7 @@ function getUrlWithId(req, id) {
   // Gets current host (e.g., 'localhost:3000' or 'yourdomain.com')
   const host = req.get('host'); 
   
-  return `${protocol}://${host}/items/${id}`;
+  return `${protocol}://${host}/${id}`;
 }
 
 export default getUrlWithId;
