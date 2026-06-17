@@ -82,12 +82,11 @@ GET /health
 ---
 
 ### 2. Generate Short URL
-**Create a new shortened URL (Requires JWT Token)**
+**Create a new shortened URL**
 
 ```http
 POST /app/v1/generateUrl
 Content-Type: application/json
-Authorization: Bearer <YOUR_JWT_TOKEN>
 ```
 
 **Request Body:**
@@ -177,8 +176,7 @@ const generateShortUrl = async (longUrl, expireDays = 10) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/app/v1/generateUrl`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwtToken}` // Add your JWT token
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         url: longUrl,
@@ -208,7 +206,6 @@ console.log('Short URL:', shortUrl);
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
-const JWT_TOKEN = localStorage.getItem('jwtToken');
 
 const generateShortUrl = async (longUrl, expireDays = 10) => {
   try {
@@ -217,11 +214,6 @@ const generateShortUrl = async (longUrl, expireDays = 10) => {
       {
         url: longUrl,
         expireInDays: expireDays
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${JWT_TOKEN}`
-        }
       }
     );
 
@@ -269,8 +261,7 @@ export default function UrlShortener() {
       const response = await fetch(`http://localhost:2000/app/v1/generateUrl`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           url: longUrl,
@@ -332,20 +323,6 @@ export default function UrlShortener() {
 
 ---
 
-## 🔐 Authentication
-
-The `/app/v1/generateUrl` endpoint requires JWT authentication. Add the token in the `Authorization` header:
-
-```
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
-
-**To obtain a JWT token:**
-- Implement user login/authentication on your backend
-- Generate JWT tokens during user authentication
-- Send tokens from frontend with each request to `/generateUrl`
-
----
 
 ## 📦 Response Format
 
@@ -410,13 +387,6 @@ url-shortener/
 - Ensure `ALLOWED_HOST` in `.env` matches your frontend URL
 - Restart the server after changing `.env`
 
-### Unauthorized (401)
-**Problem:** "Unauthorized" response when generating URLs
-
-**Solution:**
-- Verify JWT token is valid
-- Ensure Authorization header is in the correct format: `Bearer <token>`
-- Check token hasn't expired
 
 ### Invalid URL Error
 **Problem:** "Url not found" error when sending valid URL
@@ -456,7 +426,6 @@ curl http://localhost:2000/health
 # Generate short URL
 curl -X POST http://localhost:2000/app/v1/generateUrl \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
     "url": "https://github.com/harshxframe/url-shortener",
     "expireInDays": 30
@@ -468,8 +437,8 @@ curl -L http://localhost:2000/abc123def45
 
 ### Using Postman
 1. Create new POST request to `http://localhost:2000/app/v1/generateUrl`
-2. Set header: `Authorization: Bearer <JWT_TOKEN>`
-3. Set body (JSON):
+2. Set body to JSON format
+3. Enter request body:
    ```json
    {
      "url": "https://example.com/long/url",
