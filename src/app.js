@@ -4,7 +4,7 @@ import generateUrlRouter from "./route/generateUrl.js";
 import readUrlRouter from "./route/readUrl.js";
 import { responseBody } from "./utils/responseBody.js";
 import cors from "cors";
-import { publicCors, restrictedCors } from "./middleware.js";
+import { globalErrorHandler, publicCors, restrictedCors } from "./middleware.js";
 
 dotenv.config();
 
@@ -21,6 +21,7 @@ export const initApp = () => {
     app.use("/", (req, res) => {
       res.send(responseBody(true, 404, "Route not found", {}));
     });
+    app.use(globalErrorHandler);
     return app;
   } catch (e) {
     throw Error(e.message);
