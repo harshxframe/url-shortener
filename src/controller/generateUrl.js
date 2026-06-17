@@ -17,7 +17,6 @@ export const generateUrl = async (req, res) => {
     const id = nanoid();
     const ttl = calculateTTL(expireInDays || 10);
     const payload = urlModel(id, url, ttl);
-    console.log(payload);
 
     const isSuccess = await insertUrlService(payload);
     if (isSuccess?.success) {

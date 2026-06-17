@@ -3,6 +3,7 @@ export function responseBody(error, code, message, data){
         error:error || true,
         code:code || 500,
         message:message || "Server Error",
-        data:data || {}
+        data:data || {},
+        timeStamp:new Date().toISOString()
     }
 }
