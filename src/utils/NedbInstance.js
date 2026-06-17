@@ -3,7 +3,7 @@ import Datastore from "@seald-io/nedb";
 const db = new Datastore({ filename: "url.db", autoload: true });
 db.ensureIndex({ fieldName: "expiresAt", expireAfterSeconds: 0 }, (err) => {
   if (err) console.error("TTL Index Setup Failed:", err);
-  else console.log("⏳ TTL Index active on 'expiresAt' key!");
+  else console.log("TTL Index active on 'expiresAt' key!");
 });
 
 export const insertUrlService = async (payload) => {
